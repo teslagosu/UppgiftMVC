@@ -1,0 +1,53 @@
+package mvc;
+
+/**
+ *
+ * @author sebastian
+ */
+public class Main {
+   
+ 
+    public static void main(String[] args) {
+      Main main = new Main();
+       new AccountHandler(main);
+    }
+    
+    void printMenu() {
+        System.out.println("1) Skapa konto");
+        System.out.println("2) Radera konto");
+        System.out.println("0) Avsluta");
+        
+    }
+
+    void printPnrMessage() {
+        System.out.println("Skriv in personnummer: ");
+    }
+    void printPnrAlreadyExcist(){
+        System.out.println("Personnummret är redan registrerat.");
+    }
+
+    void printNewAccountMessage() {
+        System.out.println("Du har skapat ett nytt konto!");
+    }
+
+    void printString(String s){
+        System.out.println(s);
+    }
+
+  
+
+    void printAccountDeleteFailedMessage() {
+        System.out.println("Radering av konto misslyckades");
+    }
+
+    void printDeleteAccountSuccessMessage() {
+        System.out.println("Radering av konto lyckades!");
+    }
+
+    void printAccountNumberMessage() {
+        System.out.println("Skriv in kontonummret på kontot du vill ta bort.");
+    }
+
+    
+    
+}
