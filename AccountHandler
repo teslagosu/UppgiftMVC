@@ -1,0 +1,172 @@
+package mvc;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+/**
+ *
+ * @author sebastian
+ */
+public class AccountHandler {
+    
+    ArrayList<Account> accountArrayList;
+    
+    private Main view;
+    Scanner input = new Scanner(System.in);
+    boolean exit ;
+    
+    AccountHandler(Main main){
+        this.accountArrayList = new ArrayList<Account>();
+        this.view = new Main();
+        this.exit = false;
+        
+        //kör menyn sålänge användaren inte trycker 0;
+        while(!exit){
+            view.printMenu();
+            int choice = input.nextInt();
+            performAction(choice);
+            
+        }
+    }
+
+    
+
+    private void performAction(int choice) {
+        switch(choice){
+            case 1:
+                createAccount();
+                break;
+            case 2:
+                deleteAccount();
+                break;
+            case 0:
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Nånting blev fel.");
+                break;
+                
+        }
+    }
+    //lägg till kontot i arraylistan
+    private void addAccount(Account account){
+        this.accountArrayList.add(account);
+    }
+
+    private void createAccount() {
+        //visa text att användaren ska skriva in ett pnr
+        view.printPnrMessage();
+        
+        //input
+        String pnr = input.nextLine();
+        
+        //Om pnr finns i arraylistan skriv ut att det redan finns.
+       if(getAccountFromPnr(pnr) != null){
+           view.printPnrAlreadyExcist();
+           return;
+       }
+       
+       //Annars om pnr inte hittas, skapa ett nytt kontonummer
+       int accountNumber = createAccountNumber();
+       while(getAccountFromAccountNumber(accountNumber) != null){
+           accountNumber = createAccountNumber();
+           
+       }
+       //lägg till kontot i arraylistan
+       Account account = new Account(pnr,accountNumber);
+       addAccount(account);
+       
+       //printa ut info om det nyskapade kontot.
+       view.printNewAccountMessage();
+       view.printString("Personnummer: "+pnr);
+       view.printString("Kontonummer: "+accountNumber);
+       
+       
+        
+            
+        
+    }
+        
+    //hämta konto som har ett pnr från arraylisten
+    public Account getAccountFromPnr(String pnr){
+        for(Account a : accountArrayList){
+            if(a.getPnr().equals(pnr)){
+               return a;
+            }
+        }
+        return null;
+    }
+    
+    //hämta konto som har ett kontonummer från arraylistan
+    public Account getAccountFromAccountNumber(int accountNumber){
+        for(Account a: accountArrayList){
+            if(a.getAccountNumber()==accountNumber){
+                return a;
+            }
+        }
+        return null;
+        
+    }
+        
+    
+    //Returnera arraylistan
+    public ArrayList<Account> getAccountList(){
+        return accountArrayList;
+    }
+    
+    //Bestäm arraylistan.
+    public void setAccountArrayList(ArrayList<Account> accountArrayList){
+        this.accountArrayList = accountArrayList;
+    }
+    
+    
+
+    private void deleteAccount() {
+        //visa alla skapade konton
+        showAllAccounts();
+        
+        //Visa texten där användaren ska mata in ett kontonummer som ska tas bort
+        view.printAccountNumberMessage();
+        
+        //input från användaren vilket kontonummer som ska väljas
+        int accountNumber = input.nextInt();
+        
+        //om kontonummret inte finns i arraylisten, visa ett error meddelande.
+        if(getAccountFromAccountNumber(accountNumber).equals(null)){
+            view.printAccountDeleteFailedMessage();  
+            
+        //om kontonummret finns, visa att raderingen lyckades.
+        }else{
+           deleteAccountByAccountNumber(accountNumber);
+            view.printDeleteAccountSuccessMessage();
+        }
+        
+        
+    }
+    
+    //tabort ett konto
+    private void deleteAccountByAccountNumber(int accountNumber){
+        this.accountArrayList.remove(accountNumber);
+    }
+    
+    
+    //generera ett nytt kontonummer
+    private int createAccountNumber() {
+       Random random = new Random();
+       int nr = random.nextInt(9999-1000+1 + 1000);
+       return nr;
+    }
+    
+    //Visa alla konton
+    private void showAllAccounts(){
+       
+        for(Account a : accountArrayList)
+            System.out.println(a);
+        
+    }
+    
+
+    
+    
+}
