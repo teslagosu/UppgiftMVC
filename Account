@@ -1,0 +1,33 @@
+package mvc;
+
+/**
+ *
+ * @author sebastian
+ */
+public class Account {
+    
+    String pNr;
+    int accountNumber;
+    
+    Account(String pNr, int accountNumber){
+        this.pNr = pNr;
+        this.accountNumber = accountNumber;
+    }
+    
+    
+    public void setPnr(String pNr){
+        this.pNr = pNr;
+    }
+    public String getPnr(){
+        return pNr;
+    }
+    
+    public void setAccountNumber(int accountNumber){
+        this.accountNumber = accountNumber;
+    }
+    
+    public int getAccountNumber(){
+        return accountNumber;
+    }
+    
+}
